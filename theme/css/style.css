@@ -301,6 +301,22 @@ border: 1px solid #ddd;
 max-width:200px;
 }
 
+/* tag */
+
+.label-default{
+line-height:2;
+border:1px solid #5cb85c;
+background:none;
+}
+
+.panel-body .label{
+color:#000;
+font-size:100%;
+}
+
+.navbar li {
+margin-right:5px;
+}
 
 
 ```
