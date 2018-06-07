@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Arteteco - misc</title><link href="http://www.arteteco.com/" rel="alternate"></link><link href="http://www.arteteco.com/feeds/misc.atom.xml" rel="self"></link><id>http://www.arteteco.com/</id><updated>2018-05-14T00:00:00+02:00</updated><entry><title>First step</title><link href="http://www.arteteco.com/firstpost.html" rel="alternate"></link><published>2018-05-14T00:00:00+02:00</published><updated>2018-05-14T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-05-14:/firstpost.html</id><summary type="html">&lt;p class="first last"&gt;Where I introduce myself and the website and I start to practice with the tools&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Arteteco - misc</title><link href="http://www.arteteco.com/" rel="alternate"></link><link href="http://www.arteteco.com/feeds/misc.atom.xml" rel="self"></link><id>http://www.arteteco.com/</id><updated>2018-05-20T00:00:00+02:00</updated><entry><title>Introduction to Regen Network</title><link href="http://www.arteteco.com/RegenNetwork.html" rel="alternate"></link><published>2018-05-20T00:00:00+02:00</published><updated>2018-05-20T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-05-20:/RegenNetwork.html</id><summary type="html">&lt;p class="first last"&gt;Where I present Regen Network, what is, what does it do, and I get to some first impressions&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;One of the main causes of the environmental degradation right now is that not caring about its effect on the environemnt is a winning model for a company, especially in the agricultural field. There is a continous positive feedback, easy bureaucracy, less costs, subsidies from the state and more. Someone who wants to go for a regenerative approach, on the other hand, has to face many negative feedbacks: has to work extra hard for less money, doesn't usually get subsidies, quite the opposite and actually has to go against the law, and needs a lot of knowledge, just to start.&lt;/p&gt;
+&lt;p&gt;I'm quite sure that pushing the feedbacks in the right direction is of paramount importance if we want to get the ecosystem on its feet.&lt;/p&gt;
+&lt;div class="section" id="what-does-regen-network-do"&gt;
+&lt;h2&gt;What does Regen Network do&lt;/h2&gt;
+&lt;p&gt;Money is usuallyh backed by something. Often by gold, sometimes money was gold, other times by petrol, or GDP. In general, though, you don't see money backed and connected to the real source of value: natural resources, water, fertility, air, life. The abstraction layers are so and such that it may be difficult to see that that is the start of all other values.&lt;/p&gt;
+&lt;p&gt;Regen Network (RN) is trying to give that environmental value an economic counterpart, and to incentivize positive economical feedbacks to rigenerative companies by using a decentralized model.
+It was created by some well known names in the permaculture world, like Christian Shearer and Gregory Landua. Right now is still gathering funds, so it hasn't started yet.&lt;/p&gt;
+&lt;p&gt;So, ignoring the technical details, this is what RN is aiming to do:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;be a verified database of the data collected in the places that joined the network. It will allow to verify in a transparent manner that the soil and the environemnt there is really getting better (or worst). The data is obtained using various protocols, involving on-site sensors, satellite data, third party verifications and more.&lt;/li&gt;
+&lt;li&gt;Put in contact entities with interest in financiate rigenerative projects (institutions, privates, no-profit...) and the projects themselves, using a smart contract model.&lt;/li&gt;
+&lt;li&gt;Develop the general health of the RN by working on protocols, helping the community and kick-starting regenerative projects.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="how-does-it-do-it"&gt;
+&lt;h2&gt;How does it do it&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;''Blockchain''. Regen network will have as a decentralized database a blockchain (based on tindermint engine), which will be processed and validated by many independent nodes, garanteeing the metadata of the informations (time, place and so on), and that the informations are true, because all the nodes will have a copy of those informations (or of the hashing of the off-chain informations, but I don't want to get into technicalities)&lt;/li&gt;
+&lt;li&gt;''Environmental State Protocols (ESP)'', practically algorithms that allow to get useful informations from the data and to quantify the effects on the environment. For example, a protocol may consider the quantity of green as seen from a satellite and the values of on-site sensors for albedo and pressure to indicate that there actually is a cover crop on that field, and how much. The implications of being able to really see what's going on on a land and to authomatically elaborate the data, without getting corruptible third parties in the middle, is one of the main strength of the project&lt;/li&gt;
+&lt;li&gt;''Smart Contracts'', called ''Ecological Conctracts'' in RN. Those are automated contracts that, starting from the informations gathered with protocols, allow to unlock the funds from a donor to who reaches the goals.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It may sound complex, but let's see some simple example&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="examples"&gt;
+&lt;h2&gt;Examples&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Italy realizes that reaching the goal of the Paris Agreement is harder than it thought. So, it puts money away to financiate everyone who can prove to sequester carbon from the atmosphere by using a set of protocols, putting subsidies for, like, 200 € per hectar if the soil gets over a certain degree of carbon sequestered. The process is immediate as it uses a smart contract, in the moment that the improvement is registered by the blockchain the payment starts in an authomatic way and the funds are released (euros, bitcoins, XRN or whatever)&lt;/li&gt;
+&lt;li&gt;Mario doesn't wont to pay those shady guys from the Bio certifications, but doesn't know how to garanteee to his customers that he is really producing food stuff while making the environment better. Using a series of protocols he shows everyone the data from his place, and the consumers can see by themselves how his work is impacting the soil. This is better than a certification, and gives him quite some advertisment.&lt;/li&gt;
+&lt;li&gt;Raphael has a big land and gathers a lot of data, beside everything else, he decides to keep his data available only on purchase, as the data is his and he can do whatever he wants with it. Many big data and research companies need good quality data, and Mario gets an extra income by providing data&lt;/li&gt;
+&lt;li&gt;A comnsumer can easily look around him for farmers that work in a way that is improving the environment, and go for them as his choice&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now, let's get this straight, I don't think that carbon in the atmosphere is &amp;quot;the&amp;quot; problem. Sequester carbon into the soil should be a welcomed side effect of activities that aim for an ecological restoration, not a scope in itself. I am not a meteorologist, but from what I've studied carbon is not anyway the only thing that matter in the planet temperature rising, the high altitude humidity for example may be accountable for a more pronunciated effect.&lt;/p&gt;
+&lt;p&gt;But you know, carbon is on everyone's mounth lately, and is anyway a good indicator of the work done, we should probably keep it as that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusions"&gt;
+&lt;h2&gt;Conclusions&lt;/h2&gt;
+&lt;p&gt;I still have quite some doubts about this project. The idea is nice, and I am sure it may have many use cases that I have not foreseen, but I'll wait for the webinair in two days to get a more solid idea. Meanwhile, do your homework:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.regen.network/"&gt;website&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://regen-network.gitlab.io/whitepaper/WhitePaper.pdf"&gt;whitepaper&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://regen-network.gitlab.io/whitepaper/Architecture.pdf"&gt;architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://regen-network.gitlab.io/whitepaper/Protocols.pdf"&gt;protocols&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://riot.im/app/#/room/#regen.network:matrix.org"&gt;riot room&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="copyright-notes"&gt;
+&lt;h2&gt;Copyright notes&lt;/h2&gt;
+&lt;p&gt;Logo is copyrighted by Regen Network, or something&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="crypto"></category><category term="regenerative agriculture"></category><category term="carbon market"></category></entry><entry><title>First step</title><link href="http://www.arteteco.com/firstpost.html" rel="alternate"></link><published>2018-05-14T00:00:00+02:00</published><updated>2018-05-14T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-05-14:/firstpost.html</id><summary type="html">&lt;p class="first last"&gt;Where I introduce myself and the website and I start to practice with the tools&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;In my life I created quite a few website, either for job or pleasure, but in all honesty I had some trouble in writing  my first post here.
 I anyhow decided to ignore the tips from the big &amp;quot;content marketing&amp;quot; experts (no, no clickbaits titles and boobs as images) and I am instead going direct to the point of why I'm here. When I was a teen-ager, after all, trying to pick up ladies following the gurus' techniques has rarely proven to be more than an embarassment to myself.&lt;/p&gt;
 &lt;div class="section" id="why"&gt;
@@ -13,8 +63,10 @@ I anyhow decided to ignore the tips from the big &amp;quot;content marketing&amp
 &lt;h2&gt;Who am I&lt;/h2&gt;
 &lt;p&gt;Frankly, I'm just a dude. I have a bachelor degree in herbalism, a permaculture designer certificate (yeah, the infamous PDC), I worked in farms and as IT, traveled and helped environmental projects for years. What does that mean, in all fairness? Not as much as it may seem. The only true important knowledge that I feel like I've accumulated in the years is the limits of my/our understanding of the world, how ignorant are we in front of the unexpectedness of nature and its complex, opaque causal relationships. Sometimes that ignites a bright wonder, other times my ignorance is quite of a downer.&lt;/p&gt;
 &lt;p&gt;I don't pretend to know that much on any subject, and if I take some slips I am happy to be corrected, please let me know in a mail. Or just write me to tell me how handsome I am, and send me some money, why not :)&lt;/p&gt;
-&lt;p&gt;!! This website
-From a technical point of view, this website is proudly done with &lt;a class="reference external" href="https://blog.getpelican.com/"&gt;pelican&lt;/a&gt;, a python-based static website generator, with &lt;a class="reference external" href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3"&gt;pelican-bootstrap3&lt;/a&gt; as theme, and is hosted by github pages. In another article I may go more indeep about the design choices for this website.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="this-website"&gt;
+&lt;h2&gt;This website&lt;/h2&gt;
+&lt;p&gt;From a technical point of view, this website is proudly done with &lt;a class="reference external" href="https://blog.getpelican.com/"&gt;pelican&lt;/a&gt;, a python-based static website generator, with &lt;a class="reference external" href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3"&gt;pelican-bootstrap3&lt;/a&gt; as theme, and is hosted by github pages. In another article I may go more indeep about the design choices for this website.&lt;/p&gt;
 &lt;p&gt;Now, I broke the ice, hope we'll get along during my little adventure with this space&lt;/p&gt;
 &lt;/div&gt;
 </content><category term="meta"></category></entry></feed>
