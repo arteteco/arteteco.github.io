@@ -291,6 +291,20 @@ margin-right:40px;
 }
 
 
+.page-header {
+    background-repeat: no-repeat;
+    background-position:  center;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    background-size:  100%;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    text-align: center;
+    color: white;
+    font-weight:
+    }
+
+
 /* trophy and trophies */
 
 .trophy_image {
