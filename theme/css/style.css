@@ -290,6 +290,9 @@ box-shadow: inset 0 0 0 3px rgba(0,0,0,.03);
 margin-right:40px;
 }
 
+.entry-content {
+font-size:18px;
+}
 
 .page-header {
     background-repeat: no-repeat;
