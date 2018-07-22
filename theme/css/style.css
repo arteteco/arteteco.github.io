@@ -91,7 +91,6 @@ a, a:hover {
 .entry-content img {
     max-width: 100%;
     height: auto;
-    margin:3px;
 }
 
 .entry-content figcaption, .caption {
@@ -337,6 +336,7 @@ margin-right:5px;
 }
 
 
+.pull-right{margin:10px;}
+.pull-left{margin:10px;}
+
 ```
-
-
