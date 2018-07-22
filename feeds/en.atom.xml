@@ -1,16 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Arteteco</title><link href="http://www.arteteco.com/" rel="alternate"></link><link href="http://www.arteteco.com/feeds/en.atom.xml" rel="self"></link><id>http://www.arteteco.com/</id><updated>2018-06-10T00:00:00+02:00</updated><entry><title>20 Steps: a gentle introduction</title><link href="http://www.arteteco.com/20steps/" rel="alternate"></link><published>2018-06-10T00:00:00+02:00</published><updated>2018-06-10T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-06-10:/20steps/</id><summary type="html">&lt;p&gt;Where I tell the story of 20 steps, my first personal designed toy garden&lt;/p&gt;</summary><content type="html">&lt;p&gt;I like gardens, so when I got back home after 2 years around the world, I felt like giving a hit to that 100 square meters behind my grandma's house. And man it was fun.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Arteteco</title><link href="http://www.arteteco.com/" rel="alternate"></link><link href="http://www.arteteco.com/feeds/en.atom.xml" rel="self"></link><id>http://www.arteteco.com/</id><updated>2018-07-15T00:00:00+02:00</updated><entry><title>20 Steps design details</title><link href="http://www.arteteco.com/20stepstech/" rel="alternate"></link><published>2018-07-15T00:00:00+02:00</published><updated>2018-07-15T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-07-15:/20stepstech/</id><summary type="html">&lt;p&gt;Where I write about some more technical detail of the 20 steps garden design.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Intro&lt;/h1&gt;
+&lt;p&gt;&lt;img src="/images/20steps/mappina.png" class="pull-right" width="400px"&gt;&lt;/p&gt;
+&lt;p&gt;This article wants to dive a &lt;strong&gt;little bit&lt;/strong&gt; deeper in the technical design aspect of the 20 steps garden I've done, so that other designers can take inspiration and curious can have a better idea of how it was all done. You may find it boring, but whatever, is not all about shiny and funny bells in life!&lt;/p&gt;
+&lt;p&gt;For the shiny and colorful bells you can read the &lt;a href="/20steps/"&gt;introduction article&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;The plot is around 100 sqm, a very small garden, with some fruit trees already in place. &lt;/p&gt;
+&lt;h1&gt;Location, climate&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Location&lt;/strong&gt; is in south Italy, &lt;strong&gt;altitude&lt;/strong&gt; around 300m&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Temperatures&lt;/strong&gt; in winter rarely get below -3°C and in summer rarely over 38°C&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Precipitations&lt;/strong&gt; are around 1 meter per year, can be abundant during winter and dry for months during summer. This is something I try not to rely to, probably due to climate changing we had 9 months of drought last year, with very heavy precipitation this year. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Soil and plants there already&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Soil&lt;/strong&gt; was compacted, quite leaked of nutrients as rain was getting soil out of the area.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pH&lt;/strong&gt; was around neutral if somewhat basic.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Trees already there&lt;/strong&gt; included an apricot tree (15 yrs ~), a pomegranade, 2 lemon trees which bear no fruit due to shady conditions and were therefore replanted, a female kiwi which yields no fruit 'cause no male was there and a strawberry tree. They were all in good health but left unpruned for many years.&lt;/li&gt;
+&lt;li&gt;Main herbaceous layer was grass blades (so called "weeds"). They did a wonderful job of keeping some roots in the soil and some flowers for the bees while no one was caring for it.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Life in the soil&lt;/strong&gt; was poor, in a massive digging we only found 2-3 worms.&lt;/li&gt;
+&lt;li&gt;A &lt;strong&gt;circular paper chromatography&lt;/strong&gt; revealed a decent mineral content but little life.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Sector analysis&lt;/h1&gt;
+&lt;div class="pull-left"&gt;&lt;center&gt;&lt;img src="/images/20steps/sector.png" width="400px"&gt;&lt;br&gt;&lt;em&gt;&lt;/em&gt; &lt;/center&gt;&lt;/div&gt;
+
+&lt;p&gt;The biggest problem here was &lt;strong&gt;water&lt;/strong&gt;: even just a light rain would have spilled over the garden, leaking nutrients and soil, as in the image. 
+The garden is facing south but doesn't really matter as most of the area was in the &lt;strong&gt;shade&lt;/strong&gt; anyway, due to high buildings. You can see the shadier parts in the map. Buildings are also shielding the place from most of the &lt;strong&gt;wind&lt;/strong&gt;.&lt;/p&gt;
+&lt;h1&gt;History&lt;/h1&gt;
+&lt;p&gt;The area has been neglected and abandoned for many years, only thing done has been removing all fallen leaves in autumn, actively preventing the soil from building up, so it was compacted and quite poor in terms of biodiversity. Fruit trees were planted almost randomly during the history of the house by my grandfather, who is no more.&lt;/p&gt;
+&lt;h1&gt;Goals&lt;/h1&gt;
+&lt;p&gt;So, before doing anything it's important to know what I was going to do with the garden, what did everyone wanted from it? After some talk this is what came out of it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;My little brother is also living there, and I wanted a place for him to stop using the xbox and have some fun with worms.&lt;/li&gt;
+&lt;li&gt;I wanted to experiment with some guilds and plants and kill time.&lt;/li&gt;
+&lt;li&gt;Everybody wanted some fresh, good quality food (it was not the main goal though, experiments were a higher priority).&lt;/li&gt;
+&lt;li&gt;It needed to be low maintenance and possibly good looking (beauty keeps places alive, no one is doing much efforts to mantain something ugly).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;The actual design&lt;/h1&gt;
+&lt;div class="center-block"&gt;&lt;img src="/images/20steps/design.png" width="600px" class="center-block"&gt;&lt;center&gt;&lt;em&gt; 
+&lt;ul style="list-style-type: none;"&gt;
+&lt;li&gt; Green: perennial area
+&lt;li&gt; Yellow: annuals
+&lt;li&gt; Brown: compost/mix
+&lt;li&gt; White: pathway
+&lt;/ul&gt;
+&lt;/em&gt;&lt;/center&gt;&lt;/div&gt;
+
+&lt;div class="pull-left"&gt;&lt;center&gt;&lt;img src="/images/20steps/pathway.jpg" width="400px"&gt;&lt;br&gt;&lt;em&gt;The pathway was done just with recycled pallets&lt;/em&gt; &lt;/center&gt;&lt;/div&gt;
+
+&lt;h2&gt;Walking path&lt;/h2&gt;
+&lt;p&gt;Here no plants are kept and it has been dug and some wood debris has been placed underneath, to allow water to i&lt;strong&gt;nfiltrate&lt;/strong&gt; and &lt;strong&gt;create soil&lt;/strong&gt; instead of spilling over. It has been done big enough to allow comfortable walking (hey, my grandma is 75 years old!) and for a ladder to be used, so minimum 60 cm wide. The proper social area is a bit larger.&lt;/p&gt;
+&lt;h2&gt;Perennial area&lt;/h2&gt;
+&lt;p&gt;Wouldn't call it a food forest as it is too small to actually have a forest dynamics, but that was the inspiration. Here is where most of the perennials already were, and it hasn't been worked much. The soil was digged, mixed with some aged horse manure and then heavily mulched. &lt;strong&gt;Guilds&lt;/strong&gt; were set in place from the beginning.&lt;/p&gt;
+&lt;div class="pull-right"&gt;&lt;center&gt;&lt;img src="/images/20steps/annualsyear0.jpg" width="400px"&gt;&lt;br&gt;&lt;em&gt;Corn, beans and pumpkins, the famous three sisters&lt;/em&gt; &lt;/center&gt;&lt;/div&gt;
+
+&lt;h2&gt;Annual - transitional part&lt;/h2&gt;
+&lt;p&gt;This was the most compacted and bare area. In a corner a fire used to be made at St Antony's day, as good wish. So we choose: that is the corn-er area (ahah,got it?). It was &lt;strong&gt;heavily dug&lt;/strong&gt; and &lt;strong&gt;big trunks&lt;/strong&gt; of wood and horse manure were buried underneath to provide a slow nutrient release, a sponge-like structure for water and an inoculation of soil microbial life (some wood was taken from a nearby forest). It is like a hugelkultur but, as we don't live in a high-precipitation area, it was not raised. Here annuals for an immediate yield were planted, first year has seen many peas, beans, corn (ancient variety from north Italy), pumpkins, ancient tomatoes, and then cauliflower broccoli and so on. Mainly annual plants, and it gave some decent harvest, but now it's &lt;strong&gt;slowly turning into a more perennial system&lt;/strong&gt;. I planted an almond tree, some fennel and a male kiwi to impollinate the female. The idea is to slowly turn it into a highly productive multi-storied perennial system.&lt;/p&gt;
+&lt;h2&gt;Compost area&lt;/h2&gt;
+&lt;p&gt;I have done a small compost area at the very entrance, which is not how you usually do it. Actually, it was more hidden before, but my grandmother and people living in the house were just leaving everything at the entrance. I just made it more "official". &lt;strong&gt;Go with the flow&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;I usually just toss the organic stuff as mulch when I'm here, anyway.&lt;/p&gt;
+&lt;h2&gt;Species selection&lt;/h2&gt;
+&lt;p&gt;The main idea was to create &lt;strong&gt;few guilds&lt;/strong&gt; around the main trees: almond, hazelnut, apricot, kiwi, strawberry tree, pomegrenade and a more herbacious area. Each new perennial has been inoculated with mychorrizal fungi when planted. The guild followed simple lines, and I put an &lt;strong&gt;emphasys on stuff for pollinators&lt;/strong&gt; and local insects, so borage, marigold, cornflower and nasturtium seeds have been generously thrown here and there. Also, most of the plant had to be edible, only notable exception has been russian comfrey (Symphitum officianalis var. bocking 14), which provides biomass, helps to break the soil and it's gorgeous. I'll get maybe more into each specific guild in other articles.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/20steps/vivaio.jpg" class="pull-left" width="400px"&gt;&lt;/p&gt;
+&lt;h1&gt;Structures&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;In order to accomodate all plants planted I needed a greenhouse. Couple of pallets and some plastic roll, everything found in the trash, done.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some worm casting could have been useful for the new plants, so I set up a worm composting barrel, and those guys really are my little brother favorites.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Phases of implementation&lt;/h1&gt;
+&lt;p&gt;The basic idea is that year 0 will have more annuals, the basic structures built and so on, year 1 will start to see some results and a gradual shift to an almost entirely perennial ecosystem, and the whole garden will reach maximum yielding at year 4, hopefully keeping it for a while. Consider that this area is too small to have a highly yielding self-sustaining system, and a continuous input from the outside, in form of kitchen scraps, paper and water is needed.&lt;/p&gt;
+&lt;h2&gt;Year 0&lt;/h2&gt;
+&lt;p&gt;Many annuals planted, some to get some yield (corn, grains, pumpkins etc), others to start dispersing seeds around (borage, local tomatoes varieties, marigold). Some perennials were brought in, some planted, some bought. &lt;/p&gt;
+&lt;p&gt;Soil was always covered, worked with generous aged manure, a porous tube irrigation system was set in place.&lt;/p&gt;
+&lt;h2&gt;Year 1&lt;/h2&gt;
+&lt;p&gt;Yields will be less than year 0: less annuals, trees will be pruned, many small plants will start to really yield in year 2. Also, some space will still be used for soil-working plants, like radishes. Less work than year 0, just planting, mulching and harvesting basically.
+&lt;div class="pull-right"&gt;&lt;center&gt;&lt;img src="/images/20steps/underwalkway.jpg" width="400px"&gt;&lt;br&gt;&lt;em&gt;Under the pathway&lt;/em&gt; &lt;/center&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;h2&gt;Year 2&lt;/h2&gt;
+&lt;p&gt;I plan to remove the irrigation system and use it for other gardens, as the biomass should now be enough to avoid watering at all. The production will start to rise,  and the maintenance getting low. There should be little need to introduce new plants now, as the useful guys will be dispersed all around, and harvesting, adding biomass and some pruning will take most of the work.&lt;/p&gt;
+&lt;h2&gt;Year 4&lt;/h2&gt;
+&lt;p&gt;Should be at the peak. No work anymore beside harvesting and pruning (but we'll work at it anyway to try new plants, of course!), and the life should be thriving so hard that the walls will crumble down and let this wave of fertility invade the whole neighbourhood.&lt;/p&gt;
+&lt;h1&gt;Copyright notes&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.vexels.com/vectors/preview/143176/lemon-color-icon"&gt; Lemon color icon &lt;/a&gt; | designed by Vexels&lt;/li&gt;
+&lt;li&gt;kiwi icon by https://icons8.com/&lt;/li&gt;
+&lt;li&gt;pomegranade icon by https://www.shareicon.net/author/alex-t&lt;/li&gt;
+&lt;li&gt;apricot icon by https://icons8.com/icon/45429/apricot&lt;/li&gt;
+&lt;li&gt;Wave GIMP brush: &lt;a rel="nofollow" href="https://www.brusheezy.com"&gt;Photoshop Brushes by Brusheezy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="permaculture design"></category></entry><entry><title>20 Steps: a gentle introduction</title><link href="http://www.arteteco.com/20steps/" rel="alternate"></link><published>2018-06-10T00:00:00+02:00</published><updated>2018-06-10T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-06-10:/20steps/</id><summary type="html">&lt;p&gt;Where I tell the story of 20 steps, my first personal designed toy garden&lt;/p&gt;</summary><content type="html">&lt;p&gt;I like gardens, so when I got back home after 2 years around the world, I felt like giving a hit to that 100 square meters behind my grandma's house. And man it was fun.&lt;/p&gt;
 &lt;p&gt;The whole idea at the beginning was to &lt;strong&gt;experiment&lt;/strong&gt; with guilds and produce some tomatoes, then it evolved into something more. It is now a food producing, living lab, fresh-microclimate provider, with an embedded audio by courtesy of the many birds and insects passing by. &lt;div class="pull-right"&gt;&lt;center&gt;&lt;img src="/images/20steps/working.jpg" width="400px"&gt;&lt;br&gt;&lt;em&gt;Working in the garden should be a pleasure&lt;/em&gt; &lt;/center&gt;&lt;/div&gt;If you stare at a point in the garden long enough, you start to see lizards, bugs, spiders, all of it while eating strawberries from the plant. &lt;strong&gt;How cool is that&lt;/strong&gt;, if you just forget about the mosquitoes which I didn't manage to get rid of just yet.&lt;/p&gt;
 &lt;p&gt;But it wasn't always like this. I mean, mosquito-wise yes, but before the place was poor with life, quite simple (read: fragile and boring), and less colorful. &lt;/p&gt;
-&lt;p&gt;Don't want to bore you with the details, I put all that stuff in this technical article. Now I just want to share some happiness for reaching version 0.1 of this garden, called 20 steps because well, that's all it takes you to get from one end of it to another.&lt;/p&gt;
+&lt;p&gt;Don't want to bore you with the details, but I'll put some design notes in &lt;a href="/20stepstech/"&gt;this article&lt;/a&gt;. Now I just want to share some happiness for reaching version 0.1 of this garden, called 20 steps because well, that's all it takes you to get from one end of it to another.&lt;/p&gt;
 &lt;h1&gt;The road to it..&lt;/h1&gt;
 &lt;p&gt;.. was quite smooth, with the occasional bump. &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Working the soil is not that fun&lt;/strong&gt; by hand. One of the reasons I like regenerative ecosystems is that you usually invest a lot of work upfront but then kick back and do a light maintenance. Why do more than that.&lt;/p&gt;
 &lt;p&gt;There was a lot of digging, a lot of resources patiently collected in a month or so (I was working as a personal driver at the time, so had many chances of peeking in many trashes!), and some social tension when I told my grandmother to put the kitchen scraps in the garden. &lt;strong&gt;A shit&lt;/strong&gt;, I tell you, that was the best part. A ton of horseshit, I love playing with that stuff.&lt;/p&gt;
 &lt;p&gt;Anyway, the game was finding those otherwise boring works enjoyable, so &lt;strong&gt;we called for a few friends&lt;/strong&gt; here to work and then eat all together, made it a game with my 9 yo brother, and I entered a &lt;strong&gt;friendly competition&lt;/strong&gt; with my neighbor who also started his veggie garden at about the same time. He produced more that year, if we ignore the fruit tree production, but his soil now sucks, while mine is a brown gold. If you ask him, of course, he produced more and my garden is a mess, so I'd say each one won its own way.&lt;/p&gt;
+&lt;div class="pull-left"&gt;&lt;center&gt;&lt;img src="/images/20steps/winter.jpg" width="400px"&gt;&lt;br&gt;&lt;em&gt;Snow is a decent mulch too&lt;/em&gt;&lt;/center&gt;&lt;/div&gt;
+
 &lt;h1&gt;.. and then the results&lt;/h1&gt;
-&lt;p&gt;&lt;div class="pull-left"&gt;&lt;center&gt;&lt;img src="/images/20steps/winter.jpg" width="400px"&gt;&lt;br&gt;&lt;em&gt;Snow is a decent mulch too&lt;/em&gt;&lt;/center&gt;&lt;/div&gt;
-I was quite satisfied with the results. &lt;strong&gt;The soil is way better now&lt;/strong&gt;, there is an automated irrigation system, and even though production is not at the peak yet (should get there next year), I already harvested pumpkins, corn, many cabbages, nettle, tomatoes, onions, chilly, and herbs like parsley, sage, basil, rosemary and more. Not bad, for a place that also gave me some great insights.&lt;/p&gt;
+&lt;p&gt;I was quite satisfied with the results. &lt;strong&gt;The soil is way better now&lt;/strong&gt;, there is an automated irrigation system, and even though production is not at the peak yet (should get there next year), I already harvested pumpkins, corn, many cabbages, nettle, tomatoes, onions, chilly, and herbs like parsley, sage, basil, rosemary and more. Not bad, for a place that also gave me some great insights.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Other yields&lt;/strong&gt; are a ton of cuttings, seeds and plants that I used to guerrilla garden in the area, so I can boost production using abandoned public places for next years.&lt;/p&gt;
 &lt;p&gt;Some nice experiments include a capillarity string watering (yeah, didn't work well), worm towers in the ground (worked pretty well), and trying to adapt some species to more shady conditions. &lt;/p&gt;
 &lt;p&gt;Beside, it has many &lt;strong&gt;flowers&lt;/strong&gt; like borage, watercress (it doesn't need that much water, what do you know), marigold and calendula, all edible, and many insects which I don't know if are edible, haven't tried yet frankly.&lt;/p&gt;
@@ -59,7 +149,7 @@ I was quite satisfied with the results. &lt;strong&gt;The soil is way better now
 &lt;div class="col-md-6"&gt;
 &lt;center&gt;&lt;img src="/images/20steps/timelapse/03-dopo.jpg" width="400px"&gt;&lt;br&gt;&lt;em&gt;After&lt;/em&gt; &lt;/center&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><category term="permaculture design trophy"></category></entry><entry><title>Dynamic accumulators</title><link href="http://www.arteteco.com/dynamicaccumulators/" rel="alternate"></link><published>2018-05-28T00:00:00+02:00</published><updated>2018-05-28T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-05-28:/dynamicaccumulators/</id><summary type="html">&lt;p&gt;Where I find out that dynamic accumulators are not really a thing, how I got there and wrote in on the wikipedia page&lt;/p&gt;</summary><content type="html">&lt;p&gt;I believed in dynamic accumulators for a while, religiously repeating what I read in many books. But after a client sincerely asked me to provide him some sources for how they are supposed to work, I found myself with a silent pubmed, an internet stacked of gardening/permaculture websites that just referred to each other as source, and the uncomfortable but refreshing feeling of haven't done my homework properly before opening my mouth.&lt;/p&gt;
+&lt;/div&gt;</content><category term="permaculture design trophy"></category></entry><entry><title>Dynamic accumulators</title><link href="http://www.arteteco.com/dynamicaccumulators/" rel="alternate"></link><published>2018-05-28T00:00:00+02:00</published><updated>2018-05-28T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-05-28:/dynamicaccumulators/</id><summary type="html">&lt;p&gt;Where I find out that dynamic accumulators are not really a thing, how I got there and wrote in on the wikipedia page&lt;/p&gt;</summary><content type="html">&lt;p&gt;I believed in dynamic accumulators for a while, religiously repeating what I read in many books. But after a client sincerely asked me to provide him some sources for how they are supposed to work, &lt;strong&gt;I found myself with a silent pubmed&lt;/strong&gt;, an internet stacked of gardening/permaculture websites that just referred to each other as source, and the uncomfortable but refreshing feeling of haven't done my homework properly before opening my mouth.&lt;/p&gt;
 &lt;p&gt;Best article I found was &lt;a href="https://permaculturenews.org/2015/04/10/the-facts-about-dynamic-accumulators/"&gt;this one&lt;/a&gt;, by  John Kitsteiner (I highly recommend him and his website, &lt;a href="http://tcpermaculture.com/"&gt;temperate climate permaculture&lt;/a&gt;). Seems like he followed a similar path: searched, nothing found. He sent a few emails to "big names" such as Toby Hemenway and Dave Jacke, and they both admitted that they didn't have any research to substantiate the very concept of dynamic accumulator. &lt;/p&gt;
 &lt;p&gt;The &lt;a href="https://en.wikipedia.org/wiki/Dynamic_accumulator"&gt;wikipedia page&lt;/a&gt; was not exempt from this dynamic accumulators hype, so I &lt;strong&gt;had&lt;/strong&gt; to rewrite the page, basically down up. So I'm now celebrating another nice page. Yahoo!&lt;/p&gt;
 &lt;p&gt;Borage and Comfrey are beautiful and useful plants, even without any myth around them. &lt;/p&gt;</content><category term="wikipedia"></category><category term="plants"></category></entry><entry><title>Introduction to Regen Network</title><link href="http://www.arteteco.com/RegenNetwork/" rel="alternate"></link><published>2018-05-20T00:00:00+02:00</published><updated>2018-05-20T00:00:00+02:00</updated><author><name>Arteteco</name></author><id>tag:www.arteteco.com,2018-05-20:/RegenNetwork/</id><summary type="html">&lt;p&gt;Where I present Regen Network, what is, what does it do, and I get to some first impressions&lt;/p&gt;</summary><content type="html">&lt;p&gt;One of the main causes of the environmental degradation right now is that not caring about its effect on the environment is a winning model for a company, especially in the agricultural field. There is a continous positive feedback, easy bureaucracy, less costs, subsidies from the state and more. Someone who wants to go for a regenerative approach, on the other hand, has to face many negative feedbacks: has to work extra hard for less money, doesn't usually get subsidies, quite the opposite and actually has to go against the law, and needs a lot of knowledge, just to start.&lt;/p&gt;
