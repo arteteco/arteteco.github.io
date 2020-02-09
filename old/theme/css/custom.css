@@ -1,0 +1,11 @@
+.article_cover_image img{
+margin-right:40px;
+}
+
+.trophy_image {
+border: 1px solid #ddd;
+}
+
+.trophy_image img {
+max-width:200px;
+}
