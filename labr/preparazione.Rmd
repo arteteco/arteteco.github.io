@@ -26,6 +26,9 @@ library(tidyverse)
 library(purrr)
 ```
 
+Con `str(rawTelegram)` vediamo che questo file JSON è una lista, di 3 elementi. Nel primo ci sono dati generali, negli altri due ci sono tutte le conversazioni di gruppo. Ogni elemento della lista è un dataframe, che a sua volta contiene liste e data frame.
+Estraiamo e riagliamo fino ad avere solo quello che interessa a noi, il data frame della chat
+
 ```{r importazione}
 rawTG<-fromJSON("result.json")
 

@@ -380,6 +380,7 @@ library(jsonlite)
 library(lubridate)
 library(tidyverse)
 library(purrr)</code></pre>
+<p>Con <code>str(rawTelegram)</code> vediamo che questo file JSON è una lista, di 3 elementi. Nel primo ci sono dati generali, negli altri due ci sono tutte le conversazioni di gruppo. Ogni elemento della lista è un dataframe, che a sua volta contiene liste e data frame. Estraiamo e riagliamo fino ad avere solo quello che interessa a noi, il data frame della chat</p>
 <pre class="r"><code>rawTG&lt;-fromJSON(&quot;result.json&quot;)
 
 TG01&lt;- chuck(rawTG, 2, 2)
