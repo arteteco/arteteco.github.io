@@ -1,0 +1,602 @@
+---
+title: "Elaborato per Laboratorio di R"
+author: "Manuel Moscariello"
+date: "2020-04-18"
+output: html_document
+---
+
+# Introduzione
+
+Il dataset utilizzato viene da una chat di gruppo su Telegram tra una serie di amici. Dall'inizio delle misure di sicurezza sanitaria, questa chat è stato un luogo di intenso scambio di opinioni, stickers, e food blogging.
+
+L'esportazione è stata fatta con il client desktop che mi ha restituito un file JSON a mille livelli gerarchici.
+
+Ho separato il lavoro in due parti.
+
+* Nella prima parte ho elaborato il dataset per renderlo gestibile. Il lavoro è visualizzabile [qui](preparazione.html)
+
+* La seconda parte invece è questa, e utilizza l'output della preparazione per effettuare le analisi.
+
+La separazione è stata fatta perché il dataset iniziale andava pulito da dati personali, quindi non volevo condividerlo per intero.
+
+# Importazione e lavoro di machete
+
+Con `str(rawTelegram)` vediamo che questo file JSON è una lista, di 3 elementi. Nel primo ci sono dati generali, negli altri due ci sono tutte le conversazioni di gruppo. Ogni elemento della lista è un dataframe, che a sua volta contiene liste e data frame.
+Estraiamo e riagliamo fino ad avere solo quello che interessa a noi, il data frame della chat
+
+```{r setup }
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```	
+
+```{r librerie}
+# Importiamo tutte le librerie necessarie
+
+library(jsonlite)
+library(lubridate)
+library(tidyverse)
+library(gganimate)
+library(purrr)
+library(tsibble)
+library(modelr)
+library(riem)
+library(weathermetrics)
+library(chorddiag)
+```
+
+E importiamo il dataset, preparato in precedenza e [scaricabile da qui](dataTG.json)
+
+```{r}
+TG03 <- fromJSON("dataTG.json")
+```
+
+## Descrizione e lavori di bisturi
+
+Ora come ultime cose dovremmo eliminare le colonne che non ci servono.
+
+Le colonne presenti sono:
+
+* `id` che è sempre meglio avere
+* `type` è sempre `message`, quindi non ci serve
+* `date`, fondamentale
+* `edited` porta molti messaggi al 1970. Non ci occorre.
+* `action`. È sempre `NA`. Possiamo eliminarlo
+* `members` è sempre `NULL`
+* `photo` è NA quando non c'è una foto, mentre c'è del testo quando è stata inviata un'immagine
+* `width` e `height` ci informano della grandezza dell'immagine.
+* `file` ci dice della presenza di un file generico. Possiamo tenerlo
+* `thumbnail` avrebbe senso se avessimo scaricato anche le immagini. Attualmente è ridondante rispetto a `photo` 
+* `media_type` e `mime_type` ci danno informazioni simili ma non ridondanti sui media inviati, e teniamo entrambi.
+* `duration_seconds` è la lunghezza dei media
+* `reply_to_message_id` indica a quale messaggio si sta rispondendo. Non mi sembra inutile.
+* `sticker_emoji` è carino
+* `message_id` è tutto `NA`, si può togliere.
+* `via_bot`  al limite ci dice se la gif è stata inviata da `@gif`. Si può togliere.
+* `author` è l'autore.
+
+
+
+```{r}
+TG04 <- select(TG03, -type, -edited, -members, -thumbnail, -via_bot)
+```
+
+# Esplorazione del dataset
+
+Converrà inoltre convertire la colonna `date` in data type `date`
+
+```{r}
+# sistemiamo il dataset per lavorare più comodamente con le date
+
+TG05<-mutate(TG04,
+    dateTime = parse_datetime(date, "%Y-%m-%dT%H:%M:%S"),
+    year = year(dateTime),
+    month = month(dateTime),
+    day = day(dateTime),
+    hour = hour(dateTime),
+    minute = minute(dateTime),
+    second = second(dateTime),
+    date = date(dateTime)
+  )
+```
+
+Vediamo se funziona: **Quanti messaggi sono stati inviati ogni giorno?**
+
+
+```{r warning = FALSE}
+textByDay <- TG05 %>% group_by(date) %>% count()
+
+ggplot(data=textByDay, aes(date, n)) +
+geom_point() + 
+  geom_line()+
+  labs(x = "Data", y = "Numero messaggi")
+```
+
+## Numeri riassuntivi
+
+* Ci sono in totale `r count(TG05)` messaggi 
+* Inviati da `r unique(TG05$author)`
+* Il primo messaggio è stato inviato il `r tmp <- arrange(TG05, date)`  `r tmp$date[[1]]`, l'ultimo registrato il `r tmp <- arrange(TG05, desc(date))`  `r tmp$date[[1]]`.
+* Di questi messaggi:
+  * `r filter(TG05, media_type=="voice_message") %>% count()` sono **messaggi vocali**
+  * `r filter(TG05, media_type=="video_message") %>% count()` sono **video messaggi** (così dette "bolle")
+  * `r filter(TG05, media_type=="sticker") %>% count()` sono **sticker**
+  * `r filter(TG05, media_type=="video_file") %>% count()` sono **video**
+
+
+## Orario più affollato 
+
+A che ora si tende a scrivere?
+
+```{r warning = FALSE}
+Aff <- group_by(TG05, hour) %>%
+  count() %>%
+  arrange(desc(n))
+
+ggplot(TG05) + 
+  geom_density(color="darkblue", fill="lightblue", mapping=aes(x=hour, y=..scaled..))+
+  geom_vline(aes(xintercept=mean(hour)),
+            color="blue", linetype="dashed", size=1)+
+  labs(x = "Ora")
+```
+
+Sembra che si concentri verso ora di pranzo e cena-dopo cena. L'ora di punta sono le `r Aff$hour[1]`.
+
+La curva dovrebbe essere grosso modo simile per tutti, chi ha una distribuzione più bimodale, chi meno
+
+```{r}
+ggplot(TG05) + 
+  geom_density(color="darkblue", fill="lightblue", mapping=aes(x=hour, y=..scaled..))+
+  facet_wrap(author ~ .)+
+  labs(x = "Ora")
+
+# È sempre stata uguale, nei mesi?
+
+byMonth <- mutate(TG05,
+                  yearmonth = format((yearmonth(date)),  format = "%Y-%m"))
+
+ggplot(byMonth) + 
+  geom_density(color="darkblue", fill="lightblue", mapping=aes(x=hour, y=..scaled..))+
+  facet_wrap(yearmonth ~ .)+
+  labs(x = "Ora")
+```
+
+## Il tempo meteorologico 
+
+Nessuno esce di casa, e va bene. Ma c'è un rapporto tra temperatura e quantità di messaggi? Magari nei giorni più caldi c'è comunque meno voglia di stare davanti ad uno schermo.
+
+Il codice funziona, ma ho avuto un problema knitting che mi ha fatto ricorrere al brutto espediente di esportare Temp in CSV, [scaricabile qui](Temp.csv), per poi reimportarlo durante il knitting.
+
+Bruttino, lo ammetto.
+
+```{r eval=FALSE}
+Temp <- mutate(TG05,
+               date = as.character(date)) %>%
+  group_by(date) %>%
+  count() %>%
+  mutate(tmpf = fahrenheit.to.celsius(
+    mean(
+      riem_measures("LIRN", date_start = .data[['date']], date_end=.data[['date']])$tmpf))) 
+
+write.csv(Temp, "Temp.csv")
+```
+
+```{r}
+Temp <- read.csv("Temp.csv")
+
+pcc<-cor.test(Temp$tmpf, Temp$n, use = "complete.obs")
+
+ggplot(Temp, aes(x=tmpf, y=n)) +
+  geom_point() +    
+  geom_smooth(method=lm)+
+  annotate("text", x=8, y=800, label = paste("ρ = ", pcc$estimate))+
+  annotate("text", x=8, y=700, label = paste("p-value = ", pcc$p.value))+
+  labs(x = "Temperatura in °C", y="Numero Messaggi")
+```
+
+
+Il p-value è bassino, la correlazione sembrerebbe reggere!
+Non fosse che chiaramente il numero di messaggi è aumentato dall'inizio dell'isolamento, e la cosa è andata a coincidere con l'aumento della temperatura, quindi è probabilmente spuria.
+
+Correliamo data e temperatura
+
+```{r}
+pccDate<-cor.test(as.numeric(Temp$date), Temp$tmpf, use = "complete.obs")
+
+
+ggplot(Temp, aes(y=tmpf, x=as.POSIXct(date))) +
+    geom_point() +  
+    scale_x_datetime()+
+  geom_smooth(method=lm)+
+      annotate("text", x=as.POSIXct("2020-01-01"), y=17, label = paste("ρ = ", pccDate$estimate))+
+    annotate("text", x=as.POSIXct("2020-01-01"), y=15, label = paste("p-value = ", pccDate$p.value)) +
+  labs(y = "Temperatura in °C", y="Data")
+```
+
+## Harry Potter
+
+Harry Potter è andato in onda dal 2020-03-16, ogni lunedì e martedì fino a lunedì 13 aprile se vogliamo considerare Fantastic Beasts parte del ciclo, essendo nello stesso universo.
+
+Ora, questa cosa ha abbassato il numero di messaggi? Lo ha alzato a causa delle chiacchere? È stato irrilevante?
+
+**Cerchiati in rosso i giorni in cui è stato trasmesso Harry Potter.**
+
+```{r}
+
+# Filtriamo le date in cui c'è stato Harry Potter
+HP<-select(TG05, author, date, text) %>%
+  filter(
+  between(
+    date, as.Date("2020-03-15"),as.Date("2020-04-13"))) %>%
+  group_by(date)%>%
+  count() %>%
+  arrange(desc(n))
+
+# facciamo una lista dei giorni specifici
+HPDates <- c("2020-03-16", "2020-03-17","2020-03-23","2020-03-24", "2020-03-30", "2020-03-31", "2020-04-06", "2020-04-07", "2020-04-13")
+
+HPDates <- as.Date(HPDates)
+
+HPDate <- filter(HP,
+                date %in% HPDates)
+
+ggplot(data=HP, aes(date, n)) +
+geom_point() + 
+  geom_point(data=HPDate, aes(date, n), pch=21, fill=NA, size=4, colour="red", stroke=1)+
+  labs(x = "Data", y="Numero messaggi")
+  
+
+```
+
+
+Non mi sembra di vedere nulla di significativo.
+
+La media dei messaggi nel periodo è stata `r mean(HP$n)`, mentre la media nei giorni specifici di trasmissione di Harry Potter è stata `r mean(HPDate$n)`, ampiamente all'interno della deviazione standard del periodo in considerazione, `r sd(HP$n)`.
+
+## Messaggi totali
+
+In generale, cogliamo l'occasione e visualizziamo un grafico cumulativo per settimana
+
+```{r}
+
+history<-select(TG05, author, date, text)
+
+history <- mutate(history,
+                  yearWeek = yearweek(date)) %>%
+  group_by(yearWeek, author) %>% 
+  count() %>%
+  group_by(author) %>%
+  mutate (cumText = cumsum(n))
+
+ggplot(history, aes(x=yearWeek, y=cumText, fill=author)) + 
+  geom_area() +
+  labs(x = "Settimana", y="Numero messaggi")
+```
+
+## Network di risposte
+
+Chi ha risposto a chi, e quanto?
+
+È un grafico interattivo. Passando con il mouse sugli elementi si hanno informazioni
+
+```{r network}
+RepliedTo <- TG05 %>% 
+  mutate(
+    reply_to_author = author[match(reply_to_message_id, id)])
+
+#A noi interessano solo 3 colonne: chi ha scritto, a chi, e quanto, e poi trasformarlo in matrice per plottarlo
+
+
+RepliedTo <- filter(RepliedTo,
+                    !is.na(reply_to_author)) %>%
+  group_by(
+    author, reply_to_author
+  ) %>%
+  count()
+
+# prepariamoci il data frame per avere una matrice
+
+RepliedTo <- pivot_wider(RepliedTo, names_from=reply_to_author, values_from=n)
+RepliedTo[is.na(RepliedTo)] <- 0
+RepliedToMatrix <- data.matrix(RepliedTo)
+row.names(RepliedToMatrix) <- RepliedTo$author
+RepliedToMatrix <- RepliedToMatrix[,-1]
+
+
+# Ora, il grafico
+
+
+groupColors <- c("#000000", "#FFDD89", "#957244", "#F26223", "#e4704b", "#90eb96", "#472c86", "#c3f729", "#004d8e", "#6d9db0", "#71b1e4", "#516afe")
+
+nomi <- (dimnames(RepliedToMatrix)[[1]])
+
+dimnames(RepliedToMatrix) <- list( autore = nomi,
+                                   risposto = nomi)
+
+p <- chorddiag(RepliedToMatrix, groupColors = groupColors, groupnamePadding = 20,showTicks = F)
+
+p
+```
+
+
+
+## Andamento
+
+Quale sembra essere il futuro di questa chat? Iniziamo a fare una regressione sul numero di messaggi a settimana per farci un'idea
+
+```{r}
+totText<-TG05 %>%
+  group_by(date) %>%
+  count()
+
+modLm <- lm(n ~ date, data = totText)
+
+gridLm <- add_predictions(totText, modLm)
+
+ggplot(totText, aes(date)) +
+  geom_point(aes(y = n)) +
+  geom_line(aes(y = gridLm$pred), color = "blue", size = 1, method='lm')+
+  labs(x = "Data", y="Numero Messaggi")
+```
+
+E con un modello `loess`
+
+```{r}
+modLoess <- loess(n ~ as.numeric(date), data = totText)
+
+gridLoess <- add_predictions(totText, modLoess)
+
+ggplot(totText, aes(x=date, y=n)) +
+  geom_point() +
+  geom_smooth(aes(y = gridLoess$pred), size = 1, method='loess')+
+  labs(x = "Data", y="Numero Messaggi")
+```
+
+Sembra comunque in crescita
+
+# Premi
+
+Ok, comincia una serie noiosa di barplot
+
+## La persona che ha scritto di più 
+
+La cosa più scontata potrebbe essere fare una conta del numero di messaggi per persona.
+
+```{r}
+NText<-TG05 %>% group_by(author)%>% drop_na(author) %>% count() %>% arrange(desc(n))
+
+ggplot(data = NText) +
+  geom_bar(mapping = aes(y = n, x = reorder(author, n), fill=author, group = author), 
+           stat = "identity")+
+  coord_flip()+
+  geom_text(stat='count',
+            aes(label=n, x=author, group=author),
+            hjust = -0.5, 
+            size = 3,
+            position = position_dodge(width = 1))+
+   labs(x = "Autore", y="Numero Messaggi")
+```
+
+Il vincitore sembra `r NText$author[1]`, ma è davvero così?
+Molte persone tendono a separare 
+i contenuti
+in più messaggi
+per qualche
+motivo.
+
+Quindi, facciamo una conta dei caratteri inviati da ogni persona.
+
+```{r}
+
+NChar<-group_by(TG05, author) %>%
+  mutate(nChar = sum(nchar(text, type="chars", ), na.rm=TRUE)) %>%
+  group_by(author, nChar) %>%
+  group_keys() %>%
+  arrange(desc(nChar))
+
+ggplot(data = NChar) +
+  geom_bar(mapping = aes(y = nChar, x = reorder(author, nChar), fill=author, group = author), 
+           stat = "identity")+
+  coord_flip()+
+  geom_text(stat='count',
+            aes(label=nChar, x=author, group=author),
+            hjust = -0.5, 
+            size = 3,
+            position = position_dodge(width = 1))+ 
+  labs(x = "Autore", y="Numero Caratteri")
+```
+
+È ufficiale: `r NChar$author[1]` è il vincitore.
+
+
+
+## Lo spezzettatore
+
+Agganciandoci a prima, chi è che indulge nella barbaria di spezzettare continuamente i propri messaggi? Calcoliamoci la media di caratteri per messaggio.
+
+```{r}
+
+Spez <- merge(NChar, NText, by = "author") %>%
+  mutate(IS = n/nChar) %>%
+  mutate(mediaCxT = nChar/n) %>%
+  arrange(desc(IS))
+
+```
+
+
+* Lo spezzettatore più grande è `r Spez$author[1]`, con un indice di spezzettamento di 0.04 e una media di caratteri per messaggio di `r Spez$mediaCxT[1]`. 
+
+* I messaggi in media più lunghi sono invece di `r Spez$author[length(Spez$author)]`, lunghi `r Spez$mediaCxT[length(Spez$mediaCxT)]` caratteri. La differenza non è enorme comunque.
+
+
+### Spin off: una prospettiva storica 
+
+Siamo nel 2020, e come omaggio ai tempi è d'obbligo un barplot race che non introduca nessuna informazione rilevante
+
+
+```{r animazione}
+# Vogliamo che ci sia sempre una riga per l'autore in ogni giorno, altrimenti il grafico sobbalza
+
+rankHistory <- 
+  complete(TG05, date, author) %>%
+  group_by(date, author) %>%
+  count() %>%
+  group_by(author) %>%
+  mutate (cumText = cumsum(n)) %>%
+  group_by(date) %>%
+  arrange(date, desc(cumText)) %>%
+  mutate(rank = 1:n())
+
+# Ora l'animazione
+
+p <- rankHistory %>%
+    ggplot(aes(x = -rank,y = cumText, group = author)) +
+        geom_tile(aes(y = cumText / 2, height = cumText, fill = author), width = 0.9) +
+        geom_text(aes(label = author), hjust = "right", colour = "black", fontface = "bold", nudge_y = -200) +
+        geom_text(aes(label = scales::comma(cumText)), hjust = "left", nudge_y = 200, colour = "grey30") +
+        coord_flip(clip="off") +
+        scale_x_discrete("") +
+        scale_y_continuous("",labels=scales::comma) +
+        theme(panel.grid.major.y=element_blank(),
+              panel.grid.minor.x=element_blank(),
+              legend.position="none",
+              plot.margin = margin(1,1,1,2,"cm"),
+              axis.text.y=element_blank()) +
+        # inizia la transizione
+        transition_time(date) +
+        ease_aes('cubic-in-out') +
+        labs(title='Numero di messaggi il',
+             subtitle=' {round(frame_time,0)}'
+             )
+
+animate(p, duration = 20, fps = 15, end_pause = 50, width = 800, height = 600)
+
+```
+
+
+## Il più pigro (numero di vocali)
+
+Chi invia più vocali o videomessaggi invece che messaggi scritti? Procediamo come prima
+
+
+```{r}
+
+# Prendiamoci solo i messaggi che abbiano un vocale
+NVoc<-TG05 %>%
+  filter(media_type == "voice_message" | media_type == "video_message")
+
+# Contiamoli raggruppati per autore
+NVoc<-  group_by(NVoc, author)%>% 
+  drop_na(author) %>% 
+  count() %>% 
+  arrange(desc(n))
+
+# Plottiamo
+ggplot(data = NVoc) +
+  geom_bar(mapping = aes(y = n, x = reorder(author, n), fill=author, group = author), 
+           stat = "identity")+
+  coord_flip()+
+  geom_text(stat='count',
+            aes(label=n, x=author, group=author),
+            hjust = -0.5, 
+            size = 3,
+            position = position_dodge(width = 1)
+  )+
+  labs(x = "Numero Vocali", y="Autore")
+
+```
+
+
+`r NVoc$author[1]` sembra la persona che manda più video e audio messaggi. 
+
+Però il risultato andrebbe comparato al totale dei messaggi, quindi quanti messaggi vocali in proporzione?
+
+
+```{r}
+
+NVoc <- rename(NVoc, nVoc = n)
+NText <- rename(NText, nText = n)
+
+
+NVocProp <- merge(NVoc, NText, by = "author") %>%
+  mutate(prop = round(nText/nVoc, digits=2)) %>%
+  arrange(prop)
+
+ggplot(data = NVocProp) +
+  geom_bar(mapping = aes(y = prop, x = reorder(author, -prop), fill=author, group = author), 
+           stat = "identity")+
+  coord_flip()+
+  geom_text(stat='count',
+            aes(label=prop, x=author, group=author),
+            hjust = -0.5, 
+            size = 3,
+            position = position_dodge(width = 1)
+  )+
+  labs(y = "Messaggi totale / vocali", x="Autore")
+```
+
+Scopriamo che il più pigro è in realtà`r NVocProp$author[1]`, che invia un vocale o un video ogni `r NVocProp$prop[1]` messaggi
+
+
+## Il risponditore
+
+Abbiamo a disposizione una colonna di risposta ai messaggi: `reply_to_message_id`. Da qui è facile vedere chi risponde più spesso. A noi interessa sapere in rapporto ai messaggi inviati però
+
+
+```{r}
+Nreplies<-TG05 %>% 
+  filter(!is.na(reply_to_message_id)) %>%
+  group_by(author)%>% 
+  drop_na(author) %>% 
+  count() %>% 
+  rename(nReplies = n) %>%
+  arrange(desc(nReplies))
+
+
+NrepliesProp <- merge(Nreplies, NText, by = "author") %>%
+  mutate(mediaRisposte = round(nText/nReplies),2) %>%
+  arrange(desc(mediaRisposte))
+
+
+ggplot(data = NrepliesProp) +
+  geom_bar(mapping = aes(y = mediaRisposte, x = reorder(author, -mediaRisposte), fill=author, group = author), 
+           stat = "identity")+
+  coord_flip()+
+  geom_text(stat='count',
+            aes(label=mediaRisposte, x=author, group=author),
+            hjust = -0.5, 
+            size = 3,
+            position = position_dodge(width = 1)
+  )+
+  labs(x = "Autore", y="Totale messaggi / risposte")
+```
+`r Nreplies$author[1]` è il maggior risponditore in assoluto, con `r Nreplies$n[1]` risposte, ma rispetto ai messaggi complessivi dell'autore ci sono dei parimeriti. Di sicuro `r NrepliesProp$author[1]` risponde di meno, con una media di una risposta ogni `r NrepliesProp$mediaRisposte[1]` messaggi.
+
+Ma a chi risponde? Chi è che è il più risposto? Possiamo usare l'ID del messaggio nella colonna `reply_to_message_id` per risalire all'autore e vedere anche questo
+
+```{r}
+messaggiRisposti<- TG05$reply_to_message_id
+messaggiRisposti <- messaggiRisposti[!is.na(messaggiRisposti)]
+
+MR<-filter(
+  TG05,
+  id %in% messaggiRisposti
+  ) %>%
+  group_by(author) %>%
+  count() %>%
+  arrange(desc(n))
+  
+  
+ggplot(data = MR) +
+  geom_bar(mapping = aes(y = n, x = reorder(author, n), fill=author, group = author), 
+           stat = "identity")+
+  coord_flip()+
+  geom_text(stat='count',
+            aes(label=n, x=author, group=author),
+            hjust = -0.5, 
+            size = 3,
+            position = position_dodge(width = 1)
+  )+
+  labs(y = "Messaggi a cui si ha avuto risposta", x="Autore")
+```
+
+Onestamente ho la nausea dei barplot. 
+

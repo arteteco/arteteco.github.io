@@ -1,0 +1,221 @@
+---
+title: "Elaborato per Laboratorio di R"
+subtitle: "Preparazione dati"
+author: "Manuel Moscariello"
+date: "4/19/2020"
+output: html_document
+---
+
+Di seguito espongo come sono arrivato dall'esportazione in JSON di tutte le attività su Telegram al dataset utilizzato per le analisi.
+
+Visto che probabilmente la gente non vuol far sapere che se la fa con me, i nomi sono stati sostituiti da pseudonimi.
+
+Il file Rmd è scaricabile [qui](preparazione.Rmd)
+
+
+```{r setup }
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+```{r librerie}
+# Importiamo tutte le librerie necessarie
+
+library(jsonlite)
+library(lubridate)
+library(tidyverse)
+library(purrr)
+```
+
+```{r importazione}
+rawTG<-fromJSON("result.json")
+
+TG01<- chuck(rawTG, 2, 2)
+
+TG01<-TG01[1,] 
+
+TG01 <- chuck(TG01, 4)
+
+TG01<-TG01[[1]]
+
+# Trasformiamo in una tibble
+TG01 <- as_tibble(TG01)
+
+# eliminiamo tutti i partecipanti che hanno scritto meno di 20 messaggi(sono solo 2)
+
+
+TG02<-group_by(TG01, from) %>% 
+  filter(n()> 20) %>%
+  ungroup()
+
+colnames(TG02)[which(names(TG02) == "from")] <- "author"
+
+# Rimuoviamo i messaggi di sistema (NA)
+
+TG02 <- filter(TG02,
+               !is.na(author))
+
+# Campio anche il mio nick per allinearlo con gli altri (è più estetica che altro)
+
+TG02$author[which(TG02$author == "arteteco")] <- "Psilocybe"
+
+# Eliminiamo le colonne compromettenti
+
+TG03<-select(TG02, -from_id, -actor, -forwarded_from, -actor_id, -location_information)
+```
+
+
+E ora rimane un ultima cosa da fare, sistemare il **contenuto dei messaggi**, nella colonna `text`. Esploriamolo e vediamo come raccogliere il più possibile
+
+```{r}
+# La colonna sarà ovviamente una lista, ma di cosa sarà fatta la lista? Sarà omogenea per data type? 
+
+
+textDataType <-c()
+
+for (i in 1:nrow(TG03)) {
+  tmp <- class(chuck(TG03$text, i))
+  textDataType<-c(textDataType, tmp)
+}
+
+
+unique(textDataType)
+
+# Abbiamo una lista che talvolta ha caratteri, talvolta liste, talvolta data frame. 
+# Quando sono caratteri dovrebbero essere semplice testo. Ma data frame e liste per cosa sono?
+
+
+textLists<-c()
+textChar<-c()
+textDf<-c()
+
+for (i in 1:nrow(TG03)) {
+  tmpID<-chuck(TG03$text, i)
+  tmp <- class(tmpID)
+  
+  if(tmp == "list"){
+  textLists<-c(textLists, tmpID)
+  }
+  
+  else if(tmp == "character"){
+    textChar<-c(textChar, tmpID)
+  }
+  
+  else if(tmp == "data.frame"){
+    textDf<-c(textDf, tmpID)
+  }
+}
+
+# I messaggi più comuni sono, per fortuna, quelli in caratteri mentre le liste e i data frame hanno un'importanza più marginale
+
+
+textLength <- tribble(
+  ~Tipo,         ~Frequenza, 
+  "Liste",      length(textLists),
+  "Caratteri",  length(textChar),
+  "DataFrame",  length(textDf)
+)
+
+textLength <- mutate(textLength, prop = Frequenza/sum(textLength$Frequenza))
+
+ggplot(textLength, aes(x="", y=Frequenza, fill=Tipo))+
+  geom_bar(width = 1, stat = "identity", color="white")+
+  coord_polar("y", start=0)
+
+
+# Esploriamo i casi in cui gli oggetti della colonna sono liste
+
+# Che oggetti contengono queste liste?
+
+textListsDataType<-c()
+for (i in 1:length(textLists)) {
+  tmp <- class(chuck(textLists, i))
+  textListsDataType<-c(textListsDataType, tmp)
+}
+
+unique(textListsDataType)
+
+# A volte sono liste di liste, altre volte liste di caratteri. Vediamo come sono fatti entrambi ricilando il codice di sopra
+
+textListsChar<-c()
+textListsLists<-c()
+for (i in 1:length(textLists)) {
+  tmpID<-chuck(textLists, i)
+  tmp <- class(tmpID)
+  
+  if(tmp == "list"){
+  textListsLists<-c(textListsLists, tmpID)
+  }
+  
+  else if(tmp == "character"){
+    textListsChar<-c(textListsChar, tmpID)
+  }
+  
+}
+
+```
+* Quando la classe è `character` sono praticamente messaggi normali, e possiamo trattarli come tali (sostituendo "a" ad ogni lettera)
+
+* Quando invece la classe è una lista sono link, hashtag e citazioni. Essendo pochi oggetti comunque rispetto a tutto e per i fini dell'esercizio possiamo trattarli come char e sostituire tutti i contenuti con una stringa vuota ""
+
+Per ultimo vediamo il caso in cui siano `data frame`. Anche qui si tratta di link e di testi ma sono strutturati come tabella per qualche motivo. Nessun messaggio testuale, possiamo sostituire ogni campo con una stringa vuota `""`
+
+Procediamo ad apportare tutte le modifiche:
+
+* i messaggi di classe `character` e i `character` nelle liste sono semplicemente messaggi, e per togliere i contenuti ma permetterci altre considerazioni di tipo quantitativo sostituirò tutte le vocali e tutti i numeri con "a"
+
+* I contenuti dei `data frame` e le liste saranno sostituiti con una stringa vuota `""`.
+
+
+
+```{r}
+for (i in 1:nrow(TG03)) {
+  tmpID<-chuck(TG03$text, i)
+  tmp <- class(tmpID)
+  
+  if(tmp == "list"){
+    TG03$text[i]<-""
+  }
+  
+  else if(tmp == "character"){
+    TG03$text[i]<-str_replace_all(textChar[i], "[a-z,A-Z,0-9]", "a")
+  }
+  
+  else if(tmp == "data.frame"){
+    TG03$text[i]<-""
+  }
+}
+
+# Controlliamo che tutto sia andato a buon fine. Dovremmo avere 0 liste e 0 data frame.
+
+textLists<-c()
+textChar<-c()
+textDf<-c()
+
+for (i in 1:nrow(TG03)) {
+  tmpID<-chuck(TG03$text, i)
+  tmp <- class(tmpID)
+  
+  if(tmp == "list"){
+  textLists<-c(textLists, tmpID)
+  }
+  
+  else if(tmp == "character"){
+    textChar<-c(textChar, tmpID)
+  }
+  
+  else if(tmp == "data.frame"){
+    textDf<-c(textDf, tmpID)
+  }
+}
+
+length(textChar)
+length(textLists)
+length(textDf)
+
+
+
+# Ed esporto il dataset, ancora grezzo ma innocuo
+
+exportJSON <- toJSON(TG03, pretty = TRUE)
+write(exportJSON, "dataTG.json")
+```
