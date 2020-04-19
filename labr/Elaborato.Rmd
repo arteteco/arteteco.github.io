@@ -19,10 +19,9 @@ Ho separato il lavoro in due parti.
 
 La separazione è stata fatta perché il dataset iniziale andava pulito da dati personali, quindi non volevo condividerlo per intero.
 
-# Importazione e lavoro di machete
+Il file Rmd è scaricabile [qui](Elaborato.Rmd)
 
-Con `str(rawTelegram)` vediamo che questo file JSON è una lista, di 3 elementi. Nel primo ci sono dati generali, negli altri due ci sono tutte le conversazioni di gruppo. Ogni elemento della lista è un dataframe, che a sua volta contiene liste e data frame.
-Estraiamo e riagliamo fino ad avere solo quello che interessa a noi, il data frame della chat
+# Importazione
 
 ```{r setup }
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
@@ -49,7 +48,7 @@ E importiamo il dataset, preparato in precedenza e [scaricabile da qui](dataTG.j
 TG03 <- fromJSON("dataTG.json")
 ```
 
-## Descrizione e lavori di bisturi
+## Descrizione e ritocchi
 
 Ora come ultime cose dovremmo eliminare le colonne che non ci servono.
 
@@ -208,7 +207,7 @@ ggplot(Temp, aes(y=tmpf, x=as.POSIXct(date))) +
   geom_smooth(method=lm)+
       annotate("text", x=as.POSIXct("2020-01-01"), y=17, label = paste("ρ = ", pccDate$estimate))+
     annotate("text", x=as.POSIXct("2020-01-01"), y=15, label = paste("p-value = ", pccDate$p.value)) +
-  labs(y = "Temperatura in °C", y="Data")
+  labs(x = "Temperatura in °C", y="Data")
 ```
 
 ## Harry Potter
@@ -249,7 +248,7 @@ geom_point() +
 
 Non mi sembra di vedere nulla di significativo.
 
-La media dei messaggi nel periodo è stata `r mean(HP$n)`, mentre la media nei giorni specifici di trasmissione di Harry Potter è stata `r mean(HPDate$n)`, ampiamente all'interno della deviazione standard del periodo in considerazione, `r sd(HP$n)`.
+La media dei messaggi nel periodo è stata `r round(mean(HP$n),2)`, mentre la media nei giorni specifici di trasmissione di Harry Potter è stata `r round(mean(HPDate$n),2)`, ampiamente all'interno della deviazione standard del periodo in considerazione, `r round(sd(HP$n),2)`.
 
 ## Messaggi totali
 
@@ -350,7 +349,7 @@ ggplot(totText, aes(x=date, y=n)) +
   labs(x = "Data", y="Numero Messaggi")
 ```
 
-Sembra comunque in crescita
+Sembra in crescita ma rallentamento
 
 # Premi
 
@@ -406,27 +405,6 @@ ggplot(data = NChar) +
 
 È ufficiale: `r NChar$author[1]` è il vincitore.
 
-
-
-## Lo spezzettatore
-
-Agganciandoci a prima, chi è che indulge nella barbaria di spezzettare continuamente i propri messaggi? Calcoliamoci la media di caratteri per messaggio.
-
-```{r}
-
-Spez <- merge(NChar, NText, by = "author") %>%
-  mutate(IS = n/nChar) %>%
-  mutate(mediaCxT = nChar/n) %>%
-  arrange(desc(IS))
-
-```
-
-
-* Lo spezzettatore più grande è `r Spez$author[1]`, con un indice di spezzettamento di 0.04 e una media di caratteri per messaggio di `r Spez$mediaCxT[1]`. 
-
-* I messaggi in media più lunghi sono invece di `r Spez$author[length(Spez$author)]`, lunghi `r Spez$mediaCxT[length(Spez$mediaCxT)]` caratteri. La differenza non è enorme comunque.
-
-
 ### Spin off: una prospettiva storica 
 
 Siamo nel 2020, e come omaggio ai tempi è d'obbligo un barplot race che non introduca nessuna informazione rilevante
@@ -470,6 +448,27 @@ p <- rankHistory %>%
 animate(p, duration = 20, fps = 15, end_pause = 50, width = 800, height = 600)
 
 ```
+
+
+
+## Lo spezzettatore
+
+Agganciandoci a prima, chi è che indulge nella barbaria di spezzettare continuamente i propri messaggi? Calcoliamoci la media di caratteri per messaggio.
+
+```{r}
+
+Spez <- merge(NChar, NText, by = "author") %>%
+  mutate(IS = n/nChar) %>%
+  mutate(mediaCxT = nChar/n) %>%
+  arrange(desc(IS))
+
+```
+
+
+* Lo spezzettatore più grande è `r Spez$author[1]`, con un indice di spezzettamento di 0.04 e una media di caratteri per messaggio di `r Spez$mediaCxT[1]`. 
+
+* I messaggi in media più lunghi sono invece di `r Spez$author[length(Spez$author)]`, lunghi `r Spez$mediaCxT[length(Spez$mediaCxT)]` caratteri. La differenza non è enorme comunque.
+
 
 
 ## Il più pigro (numero di vocali)
