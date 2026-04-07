@@ -1,0 +1,195 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
+---
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manuel Moscariello — Avventuriero per gioco</title>
+  <meta name="description" content="Costruisco cose che non esistono ancora. Vado in posti dimenticati. Preferibilmente fuori dai tracciati." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0e0e0d; --bg2: #151513; --surface: #1c1c1a; --border: #2a2a27;
+      --text: #e8e4dc; --muted: #7a7870;
+      --green: #7fb87e; --green2: #5a8a5e; --green-dim: rgba(127,184,126,0.1);
+      --gold: #a8864e;
+      --fd: 'Playfair Display', Georgia, serif;
+      --fm: 'DM Mono', monospace;
+      --fb: 'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--fb); font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: var(--fm); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--green); text-decoration: none; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--fm); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--green); }
+
+    .hero { background: linear-gradient(135deg, #0d150d 0%, #0e0e0d 60%, #111a0e 100%); padding: 5rem 2rem 4rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: radial-gradient(ellipse at right top, rgba(127,184,126,0.1) 0%, transparent 65%); }
+    .hero-name { font-family: var(--fd); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; color: var(--text); line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.02em; position: relative; }
+    .hero-tagline { font-family: var(--fd); font-size: clamp(1.2rem, 3vw, 2rem); font-weight: 700; font-style: italic; color: var(--green); line-height: 1; position: relative; }
+
+    .profile { display: grid; grid-template-columns: 160px 1fr; gap: 3rem; align-items: start; padding: 3rem 2rem; border-bottom: 1px solid var(--border); max-width: 1100px; margin: 0 auto; }
+    .profile-left { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; position: sticky; top: 5rem; }
+    .profile-photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 2px solid var(--green2); filter: grayscale(20%); transition: filter 0.4s; }
+    .profile-photo:hover { filter: grayscale(0%); }
+    .socials { display: flex; gap: 0.6rem; }
+    .socials a { width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--muted); font-family: var(--fm); font-size: 0.6rem; text-decoration: none; transition: all 0.3s; }
+    .socials a:hover { border-color: var(--green); color: var(--green); }
+    .profile-right { max-width: 700px; }
+    .profile-right h2 { font-family: var(--fd); font-size: 1.6rem; font-weight: 700; margin-bottom: 1rem; color: var(--green); }
+    .profile-right p { color: var(--muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 0.8rem; }
+    .profile-right p strong { color: var(--text); font-weight: 400; }
+
+    .feed { padding: 3rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .feed-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .section-label { font-family: var(--fm); font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--green); }
+    .tag-filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .tag-filter { font-family: var(--fm); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); padding: 0.3rem 0.7rem; cursor: pointer; transition: all 0.3s; background: none; }
+    .tag-filter:hover, .tag-filter.active { color: var(--green); border-color: var(--green); }
+
+    .posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+    .post-card { background: var(--bg); text-decoration: none; display: block; position: relative; transition: background 0.3s; overflow: hidden; }
+    .post-card:hover { background: var(--surface); }
+    .post-card.hidden { display: none; }
+    .post-img { width: 100%; height: 180px; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-family: var(--fm); font-size: 0.55rem; color: var(--border); letter-spacing: 0.08em; position: relative; overflow: hidden; }
+    .post-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .post-img-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(14,14,13,0.8) 100%); }
+    .post-body { padding: 1.2rem 1.5rem 1.5rem; }
+    .post-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem; flex-wrap: wrap; gap: 0.4rem; }
+    .post-date { font-family: var(--fm); font-size: 0.55rem; color: var(--muted); }
+    .post-tags { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .post-tag { font-family: var(--fm); font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid; color: var(--green); border-color: var(--green2); }
+    .post-title { font-family: var(--fd); font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.3; transition: color 0.3s; }
+    .post-card:hover .post-title { color: var(--green); }
+    .post-excerpt { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-top: 0.5rem; }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem; display: flex; justify-content: space-between; }
+    footer p { font-family: var(--fm); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; }
+    footer a { font-family: var(--fm); font-size: 0.6rem; color: var(--gold); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero { padding: 4rem 1.5rem 3rem; }
+      .profile { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+      .profile-left { position: static; flex-direction: row; justify-content: flex-start; }
+      .feed { padding: 2rem 1.5rem; }
+      .posts-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">arteteco</a>
+    <ul class="nav-links">
+      <li><a href="/chi-sono">Chi sono</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO: per foto reale aggiungi style="background-image: url('/hero.jpg'); background-size: cover; background-position: center;" -->
+  <section class="hero">
+    <h1 class="hero-name">Manuel Moscariello</h1>
+    <p class="hero-tagline">Avventuriero per gioco</p>
+  </section>
+
+  <section class="profile">
+    <div class="profile-left">
+      <img src="/foto.png" alt="Manuel Moscariello" class="profile-photo" />
+      <div class="socials">
+        <a href="https://instagram.com/" title="Instagram">ig</a>
+        <a href="https://linkedin.com/" title="LinkedIn">in</a>
+        <a href="https://youtube.com/" title="YouTube">yt</a>
+      </div>
+    </div>
+    <div class="profile-right">
+      <h2>Chi sono</h2>
+      <p>Costruisco cose che non esistono ancora. Vado in posti dimenticati. Scrivo giochi. Suono strumenti nel modo sbagliato. <strong>Preferibilmente fuori dai tracciati.</strong></p>
+      <p>Di giorno lavoro come ecologo e presidente di <strong>ASNU — Associazione Scienze Naturali Unite</strong>, dove cerco di tenere insieme natura, persone e progetti europei.</p>
+      <p>Il resto del tempo lo passo a costruire una railbike per ferrovie abbandonate, imparare ad accendere fuochi con l'acciarino, e pianificare di scendere il Danubio su un kayak modificato da me.</p>
+    </div>
+  </section>
+
+  <section class="feed">
+    <div class="feed-header">
+      <p class="section-label">// Tutto</p>
+      <div class="tag-filters">
+        <button class="tag-filter active" data-tag="tutti">tutti</button>
+        {allTags.map(tag => (
+          <button class="tag-filter" data-tag={tag}>{tag}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="posts-grid">
+      {sortedPosts.map(post => (
+        <a href={`/posts/${post.id}`} class="post-card" data-tags={post.data.tags.join(',')}>
+          <div class="post-img">
+            {post.data.cover
+              ? <img src={post.data.cover} alt={post.data.title} />
+              : <span>immagine</span>
+            }
+            <div class="post-img-overlay"></div>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span class="post-date">
+                {new Date(post.data.date).toLocaleDateString('it-IT', { month: 'short', year: 'numeric' })}
+              </span>
+              <div class="post-tags">
+                {post.data.tags.map(tag => (
+                  <span class="post-tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+            <h3 class="post-title">{post.data.title}</h3>
+            {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <footer>
+    <p>© Manuel Moscariello</p>
+    <a href="/">arteteco.com</a>
+  </footer>
+
+  <script>
+    const filters = document.querySelectorAll('.tag-filter');
+    const cards = document.querySelectorAll('.post-card');
+
+    filters.forEach(btn => {
+      btn.addEventListener('click', function() {
+        filters.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const tag = this.dataset.tag;
+        cards.forEach(card => {
+          if (tag === 'tutti') {
+            card.classList.remove('hidden');
+          } else {
+            const tags = card.dataset.tags.split(',');
+            card.classList.toggle('hidden', !tags.includes(tag));
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
