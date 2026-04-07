@@ -9,3 +9,10 @@ export default defineConfig({
     plugins: [tailwindcss()]
   }
 });
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+
+export default defineConfig({
+  site: 'https://arteteco.com',
+  integrations: [tailwind()],
+});
