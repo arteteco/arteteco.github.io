@@ -2,9 +2,9 @@
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('posts');
-const sortedPosts = posts.sort((a, b) =>
-  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+const sortedPosts = posts
+  .filter(p => !p.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 const allTags = [...new Set(posts.flatMap(p => p.data.tags))].sort();
 
 let mastodonPosts: any[] = [];

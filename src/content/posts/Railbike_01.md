@@ -5,7 +5,7 @@ excerpt: Come è iniziato il piccolo percorso con le railbike
 tags:
   - viaggi
   - diy
-cover: /img/railbike04.png
+cover: /img/railbike05.png
 ---
 ## TLDR
 
