@@ -1,6 +1,6 @@
 {
-  "imageFolder": "img",
+  "imageFolder": "/home/tombom/Computer/arteteco.github.io/public/img",
   "animateGifs": false,
   "debugMode": false,
-  "zoom": 1
+  "zoom": 0.5
 }
