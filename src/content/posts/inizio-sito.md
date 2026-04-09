@@ -24,6 +24,7 @@ Il backend usa [Obsidian](https://obsidian.md/) per scrivere i file in formato m
 Da questo punto di vista l'AI è stata fantastica, vorrei concentrarmi sul contenuto, non su come scrivere la roba. Nessun contenuto su questo sito è prodotto da AI: foto vere, scritte vere, magari noiose, magari sporche, ma vere.
 
 ![[inizio.jpg]]
+![](/img/inizio.jpg)
 *Foto di un piccolo Manuel in Trentino. Cerca di dialogare con una capra che lo ignora nonostante i suoi tentativi di vestirsi in maniera simile. Solo la prima di una serie di delusioni*
 
 In questo sito vorrei raccogliere un po' di cose che faccio e che sono, non ci sono commenti o giudizi ma potete scrivere se volete sugli account personali. Nessuna pretesa che sia di interesse, vediamo se mi diverte
