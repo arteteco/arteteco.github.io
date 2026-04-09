@@ -6,7 +6,7 @@ tags:
   - viaggi
   - railbike
 cover: /img/lucien.png
-draft: true
+draft: false
 ---
 Se vedete la [pagina wikipedia sul railbike](https://it.wikipedia.org/wiki/Velorail), che si chiama velorail e questa cosa fa cagare, c'è scritto che il primo documentato a utilizzare una velorail è stato Lucien Péraire. Non esiste una pagina in Italiano, ma in Francese si trova un po' di roba. Una persona interessantissima, e una delle prima documentate a usare una railbike
 
