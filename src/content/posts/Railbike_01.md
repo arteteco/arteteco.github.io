@@ -5,9 +5,11 @@ excerpt: Come è iniziato il piccolo percorso con le railbike
 tags:
   - viaggi
   - diy
-cover: /img/railbike.jpg
+cover: /img/railbike04.jpg
 ---
+## TLDR
 
+Sto costruendo una bici che va sui binari è una figata ma ancora non sono riuscito a fare un prototipo che funzionasse bene. Però ho imparato a saldare, a usare il flex e mi sono fatto grandi trip di suggestioni
 ## Come è iniziato
 
 Ok allora **le ferrovie sono sempre state una cosa tremendamente suggestiva** per me. Non i treni di per loro ma proprio i binari, queste strade simmetriche, che tagliano il paesaggio senza modificarlo troppo, che portano promesse di sogni e viaggi e racconti.
@@ -55,4 +57,4 @@ Per carità, ha funzionato ed è stata una soddisfazione, ma andava a passo d'uo
 
 Ho ordinato delle ruote da https://rollenbau.at. Hanno diversi modelli di ruote flangiate per treni, un po' cari ma meno di fare tutto a mano e perderci giorni, sicuramente.
 
-Quando avrò le ruote e farò il prossimo prototipo cercherò di pubblicare il progetto, l'ho già fatto con excalidraw ma vorrei testarlo prima magari
+Quando avrò le ruote e farò il prossimo prototipo cercherò di pubblicare il progetto, l'ho già fatto con excalidraw ma vorrei testarlo prima magari!
