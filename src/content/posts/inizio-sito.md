@@ -1,6 +1,6 @@
 ---
 title: Ho aperto il sito. E mo?
-date: 2026-09-04
+date: 2026-04-09
 excerpt: Ho creato questo nuovo sito, e adesso che ci faccio?
 tags:
   - meta
