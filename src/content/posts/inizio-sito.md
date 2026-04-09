@@ -16,10 +16,10 @@ Ho poche foto della mia vita, però mi piace lasciare traccia, lasciare un segno
 
 E quindi niente, sono tornato da un training e ho finito un periodo molto lungo di lavoro intensissimo, e ho sentito il bisogno di qualcosa per riprendermi. In una singola serata, con Claude, [Astro](https://astro.build/),  Github pages e un poco di smanettamento (quanto mi sono divertito, troppo forse) ho messo su questo sito.
 Il backend usa [Obsidian](https://obsidian.md/) per scrivere i file in formato md, Astro fa da cornice e sono pubblicati su github pages. Un paio di script per automatizzare ed è subito 2008, quando scrivevo i primi siti internet personali usando [Pelican](https://getpelican.com/) e scrivendo tutto a mano in html, css e python.
-Da questo punto di vista l'AI è stata fantastica, vorrei concentrarmi sul contenuto, non su come scrivere la roba
+Da questo punto di vista l'AI è stata fantastica, vorrei concentrarmi sul contenuto, non su come scrivere la roba. Nessun contenuto su questo sito è prodotto da AI: foto vere, scritte vere, magari noiose, magari sporche, ma vere.
 
 ![[DSC_0114.jpg]]
-
+*Foto di un piccolo Manuel in Trentino. Cerca di dialogare con una capra che lo ignora. Solo la prima di una serie di delusioni*
 
 In questo sito vorrei raccogliere un po' di cose che faccio e che sono, non ci sono commenti o giudizi ma potete scrivere se volete sugli account personali. Nessuna pretesa che sia di interesse, vediamo se mi diverte
 
