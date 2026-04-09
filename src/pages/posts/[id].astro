@@ -54,18 +54,18 @@ const { Content } = await render(post);
     .post-meta { font-family: var(--fm); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; }
 
     .post-body { max-width: 720px; margin: 0 auto; padding: 2rem; }
-    .post-body p { color: var(--muted); font-size: 1rem; line-height: 1.9; margin-bottom: 1.5rem; }
-    .post-body p strong { color: var(--text); font-weight: 400; }
-    .post-body h2 { font-family: var(--fd); font-size: 1.6rem; font-weight: 700; color: var(--green); margin: 2.5rem 0 1rem; }
-    .post-body h3 { font-family: var(--fd); font-size: 1.2rem; font-weight: 700; color: var(--text); margin: 2rem 0 0.8rem; }
-    .post-body img { max-width: 100%; height: auto; margin: 2rem 0; border: 1px solid var(--border); display: block; }
-    .post-body iframe { width: 100%; margin: 2rem 0; border: none; }
-    .post-body a { color: var(--green); text-decoration: none; border-bottom: 1px solid var(--green2); transition: color 0.3s; }
-    .post-body a:hover { color: var(--text); }
-    .post-body blockquote { border-left: 2px solid var(--green2); padding-left: 1.5rem; margin: 2rem 0; color: var(--muted); font-style: italic; }
-    .post-body code { font-family: var(--fm); font-size: 0.85rem; background: var(--surface); padding: 0.2rem 0.4rem; color: var(--green); }
-    .post-body ul, .post-body ol { color: var(--muted); padding-left: 1.5rem; margin-bottom: 1.5rem; }
-    .post-body li { margin-bottom: 0.5rem; line-height: 1.8; }
+    .post-body :global(p) { color: var(--muted); font-size: 1rem; line-height: 1.9; margin-bottom: 1.5rem; }
+    .post-body :global(p strong) { color: var(--text); font-weight: 400; }
+    .post-body :global(h2) { font-family: var(--fd); font-size: 1.6rem; font-weight: 700; color: var(--green); margin: 2.5rem 0 1rem; }
+    .post-body :global(h3) { font-family: var(--fd); font-size: 1.2rem; font-weight: 700; color: var(--text); margin: 2rem 0 0.8rem; }
+    .post-body :global(img) { max-width: 100%; height: auto; margin: 2rem 0; border: 1px solid var(--border); display: block; }
+    .post-body :global(iframe) { width: 100%; margin: 2rem 0; border: none; }
+    .post-body :global(a) { color: var(--green); text-decoration: none; border-bottom: 1px solid var(--green2); transition: color 0.3s; }
+    .post-body :global(a:hover) { color: var(--text); }
+    .post-body :global(blockquote) { border-left: 2px solid var(--green2); padding-left: 1.5rem; margin: 2rem 0; color: var(--muted); font-style: italic; }
+    .post-body :global(code) { font-family: var(--fm); font-size: 0.85rem; background: var(--surface); padding: 0.2rem 0.4rem; color: var(--green); }
+    .post-body :global(ul), .post-body :global(ol) { color: var(--muted); padding-left: 1.5rem; margin-bottom: 1.5rem; }
+    .post-body :global(li) { margin-bottom: 0.5rem; line-height: 1.8; }
 
     .post-footer { max-width: 720px; margin: 0 auto; padding: 2rem; border-top: 1px solid var(--border); }
     .back-link { font-family: var(--fm); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
