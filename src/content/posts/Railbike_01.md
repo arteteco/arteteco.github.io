@@ -21,7 +21,7 @@ Ah e mi piace andare in bicicletta
 Quindi quando su pinterest ho trovato questo ([fonte](https://pin.it/23IdMKftp)): boom.
 Cioè, bici e rotaie abbandonate. **BOOM**, non so dire quanto mi abbia affascinato, dovevo farlo
 
-![[Pasted image 20260409215019.png]]
+![[Pasted image 20260409215019.png|Caption test]]
 
 
 

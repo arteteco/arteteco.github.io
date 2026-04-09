@@ -207,8 +207,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -224,16 +223,17 @@
   },
   "active": "4641d1cb6595dce5",
   "lastOpenFiles": [
-    "Pasted image 20260409220305.png",
-    "Pasted image 20260409220141.png",
-    "Pasted image 20260409220054.png",
-    "Pasted image 20260409215825.png",
-    "Pasted image 20260409215751.png",
-    "Pasted image 20260409215019.png",
-    "2026-04-09.md",
-    "Railbike_01.md",
     "inizio-sito.md",
-    "inizio.jpg",
+    "img/inizio.jpg",
+    "Railbike_01.md",
+    "img/Pasted image 20260409215019.png",
+    "img",
+    "img/Pasted image 20260409220305.png",
+    "img/Pasted image 20260409220141.png",
+    "img/Pasted image 20260409220054.png",
+    "img/Pasted image 20260409215825.png",
+    "img/Pasted image 20260409215751.png",
+    "2026-04-09.md",
     "_template/posts.md",
     "DSC_0114.jpg",
     "_template",
