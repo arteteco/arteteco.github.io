@@ -12,8 +12,10 @@
  *   [[page]]                   → internal link to /posts/page
  *   [[page|alias]]             → internal link with custom label
  *
- * Uses only packages already bundled by Astro (mdast-util-find-and-replace),
- * so no extra dependencies are needed.
+ *   ![](image.png)             → relative paths rewritten to /img/image.png
+ *
+ * Uses only packages already bundled by Astro (mdast-util-find-and-replace,
+ * unist-util-visit), so no extra dependencies are needed.
  *
  * @param {object} [options]
  * @param {string} [options.imgPath='/img/']  Base path for embedded images.
@@ -21,6 +23,7 @@
  */
 
 import { findAndReplace } from 'mdast-util-find-and-replace';
+import { visit } from 'unist-util-visit';
 
 // ![[filename]] or ![[filename|opt1|opt2...]]
 const RE_EMBED = /!\[\[([^\]|]+?)((?:\|[^\]]*)*)\]\]/g;
@@ -58,6 +61,14 @@ function buildImageStyle({ width, height, align }) {
 
 export function remarkObsidian({ imgPath = '/img/', postsPath = '/posts/' } = {}) {
   return (tree) => {
+    // Rewrite relative image paths (Obsidian bare filenames) to imgPath.
+    // Absolute paths (/...) and URLs (http/https) are left untouched.
+    visit(tree, 'image', (node) => {
+      if (!node.url.startsWith('/') && !/^https?:\/\//.test(node.url)) {
+        node.url = imgPath + node.url.split('/').pop();
+      }
+    });
+
     findAndReplace(tree, [
       [
         RE_EMBED,

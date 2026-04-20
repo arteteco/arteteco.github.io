@@ -28,26 +28,26 @@ const { Content } = await render(post);
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0e0e0d; --bg2: #151513; --surface: #1c1c1a; --border: #2a2a27;
-      --text: #e8e4dc; --muted: #7a7870;
-      --green: #7fb87e; --green2: #5a8a5e;
-      --gold: #a8864e;
+      --bg: #f5f2ec; --bg2: #ede9e0; --surface: #e4dfd4; --border: #ccc8be;
+      --text: #1a1a17; --muted: #6b6860;
+      --green: #3a7a3a; --green2: #2a5c2a;
+      --gold: #8a6428;
       --fd: 'Playfair Display', Georgia, serif;
-      --fm: 'DM Mono', monospace;
-      --fb: 'DM Sans', sans-serif;
+      --fm: 'DM Mono', 'Courier New', monospace;
+      --fb: 'DM Sans', system-ui, sans-serif;
     }
     body { background: var(--bg); color: var(--text); font-family: var(--fb); font-weight: 300; line-height: 1.6; }
     a { color: var(--green); text-decoration: none; }
 
     nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: var(--fm); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--green); text-decoration: none; text-transform: uppercase; }
+    .nav-logo { font-family: var(--fm); font-size: 0.9rem; letter-spacing: 0.2em; color: var(--green); text-decoration: none; text-transform: uppercase; }
     .nav-back { font-family: var(--fm); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
     .nav-back:hover { color: var(--green); }
 
     .hero { position: relative; height: 50vh; min-height: 300px; overflow: hidden; background: var(--bg2); }
     .hero img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 30%, var(--bg) 100%); }
-    .hero-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #0d150d 0%, #0e0e0d 60%, #111a0e 100%); }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 65%, rgba(245,242,236,1) 100%); }
+    .hero-placeholder { width: 100%; height: 100%; background: linear-gradient(150deg, #eef5ee 0%, #f5f2ec 55%, #f0ede4 100%); }
 
     .post-header { max-width: 720px; margin: 0 auto; padding: 3rem 2rem 2rem; }
     .post-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
