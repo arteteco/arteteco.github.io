@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "banjo_arabe.md",
+                "file": "Lucien_peraire.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "banjo_arabe"
+              "title": "Lucien_peraire"
             }
           }
         ],
@@ -252,12 +252,13 @@
   },
   "active": "c395e7dcaaca5167",
   "lastOpenFiles": [
-    "Lucien_peraire.md",
+    "Railbike_01.md",
+    "inizio-sito.md",
     "banjo_arabe.md",
+    "Lucien_peraire.md",
     "Lucien_peraire.md.tmp.45927.1775771014559",
     "Lucien_peraire.md.tmp.45927.1775771011986",
     "Lucien_peraire.md.tmp.45927.1775771009162",
-    "Railbike_01.md",
     "_attachments/lucien.png",
     "_attachments/route_lucien.png",
     "_attachments/Pasted image 20260409230349.png",
@@ -275,7 +276,6 @@
     "home/tombom/Computer/arteteco.github.io",
     "home/tombom/Computer",
     "home/tombom",
-    "inizio-sito.md",
     "2026-04-09.md",
     "_template/posts.md",
     "test di un altro articolo.md",

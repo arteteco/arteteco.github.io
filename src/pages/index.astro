@@ -109,6 +109,12 @@ try {
     .thought-content a:hover { text-decoration: underline; }
     .thought-link { font-family: var(--fm); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; align-self: flex-start; }
     .thought-link:hover { color: var(--green); }
+    .thought-media { display: grid; gap: 2px; }
+    .thought-media.media-1 { grid-template-columns: 1fr; }
+    .thought-media.media-2 { grid-template-columns: 1fr 1fr; }
+    .thought-media.media-3, .thought-media.media-4 { grid-template-columns: 1fr 1fr; }
+    .thought-media img { width: 100%; height: 140px; object-fit: cover; display: block; filter: grayscale(20%); transition: filter 0.3s; }
+    .thought-media img:hover { filter: grayscale(0%); }
     .thoughts-fallback { font-family: var(--fm); font-size: 0.75rem; color: var(--muted); text-align: center; padding: 2rem 0; }
 
     footer { border-top: 1px solid var(--border); padding: 2rem; display: flex; justify-content: space-between; }
@@ -131,7 +137,7 @@ try {
   <nav>
     <a href="/" class="nav-logo">arteteco</a>
     <ul class="nav-links">
-      <li><a href="/chi-sono">Chi sono</a></li>
+      {/* <li><a href="/chi-sono">Chi sono</a></li> */}
     </ul>
   </nav>
 
@@ -140,14 +146,15 @@ try {
       <img src="/foto.png" alt="Manuel Moscariello" class="profile-photo" />
       <div class="socials">
         <a href="https://www.instagram.com/manuel.arteteco/" title="Instagram">ig</a>
-        <a href="https://www.youtube.com/@manuarteteco6153" title="YouTube">yt</a>
+        <a href="mailto:manuarteteco@gmail.com" title="Email">@</a>
       </div>
     </div>
     <div class="profile-right">
       <h2>Chi sono</h2>
-      <p>Costruisco cose che non esistono ancora. Vado in posti dimenticati. Scrivo giochi. Suono strumenti nel modo sbagliato. <strong>Preferibilmente fuori dai tracciati.</strong></p>
-      <p>Di giorno lavoro come ecologo e presidente di <strong>ASNU — Associazione Scienze Naturali Unite</strong>, dove cerco di tenere insieme natura, persone e progetti europei.</p>
-      <p>Il resto del tempo lo passo a costruire una railbike per ferrovie abbandonate, imparare ad accendere fuochi con l'acciarino, e pianificare di scendere il Danubio su un kayak modificato da me.</p>
+      <p>Ciao, sono Manuel e sono un <strong>avventuriero</strong>. Costruisco cose che non esistono ancora, vado in posti dimenticati, suono strumenti nel modo sbagliato, gioco, mi piacciono gli umani. A volte faccio fuochi nei boschi.</p>
+      <p>Di giorno tengo insieme natura, persone e progetti come presidente di <a href="https://asnuaps.it/links">ASNU</a>.</p>
+      <p>Mi innamoro un po' di tutto.</p>
+      <p>Sono disponibile per commissioni e compagni di avventura. Si accettano pagamenti in abbracci e melanzane sott'olio.</p>
     </div>
   </section>
 
@@ -199,6 +206,13 @@ try {
             <span class="thought-date">
               {new Date(status.created_at).toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' })}
             </span>
+            {status.media_attachments?.length > 0 && (
+              <div class={`thought-media media-${Math.min(status.media_attachments.length, 4)}`}>
+                {status.media_attachments.slice(0, 4).filter((a: any) => a.type === 'image').map((att: any) => (
+                  <img src={att.preview_url} alt={att.description ?? ''} loading="lazy" />
+                ))}
+              </div>
+            )}
             <div class="thought-content" set:html={status.content} />
             <a href={status.url} target="_blank" rel="noopener noreferrer" class="thought-link">
               leggi su mastodon →
