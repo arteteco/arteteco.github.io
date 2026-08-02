@@ -331,6 +331,62 @@
   .sync-dot.visible {
     opacity: 0.6;
   }
+
+  /* --- Gate password --- */
+
+  .gate-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 16px;
+  }
+
+  .gate-overlay.hidden {
+    display: none;
+  }
+
+  .gate-box {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+
+  .gate-box input {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 12px;
+    background: var(--bg-card);
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .gate-box input:focus {
+    outline: 2px solid var(--accent);
+  }
+
+  .gate-box button {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 12px;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+  }
+
+  .gate-error {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 16px;
+  }
 </style>
 </head>
 <body>
@@ -366,14 +422,63 @@
 
 <div class="sync-dot" id="syncDot"></div>
 
+<div class="gate-overlay hidden" id="gateOverlay">
+  <div class="gate-box">
+    <input type="password" id="gatePassword" placeholder="Password" autocomplete="current-password">
+    <button id="gateSubmit" type="button">Sblocca</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
 <script>
 (function () {
   'use strict';
 
   // ---------------------------------------------------------------------
   // Config API — solo simple request, niente preflight CORS (vedi MIGRATION-PWA.md).
+  // Il token non è in chiaro nel sorgente: è cifrato con una password, vedi
+  // il gate più sotto. Non è vera sicurezza (chi conosce la password vede
+  // tutto), serve solo a non esporre il token a scraping/crawling passivo.
 
-  var API = { url: 'https://script.google.com/macros/s/AKfycbxpdwwiKfWh9sD06JGph8xrIpJSUwbYIzNoMGiQuYnOODPLMLvs73enYdXz1w6yxGOw/exec', token: 'stocazzo18' };
+  var API = { url: 'https://script.google.com/macros/s/AKfycbxpdwwiKfWh9sD06JGph8xrIpJSUwbYIzNoMGiQuYnOODPLMLvs73enYdXz1w6yxGOw/exec', token: null };
+
+  var ENCRYPTED_TOKEN = {
+    salt: 'SqvagoyKdNZCp58fEoquGQ==',
+    iv: 'ghmNgPJ74MJspcfI',
+    ciphertext: 'Qcd9HWD9bLeQG/DnZ1c6H/c+pcCQHx6QRd8='
+  };
+  var STORAGE_TOKEN = 'mywiki.token';
+
+  function b64ToBuf(b64) {
+    var bin = atob(b64);
+    var buf = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+    return buf.buffer;
+  }
+
+  function decryptToken(password) {
+    var enc = new TextEncoder();
+    return crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey'])
+      .then(function (baseKey) {
+        return crypto.subtle.deriveKey(
+          { name: 'PBKDF2', salt: b64ToBuf(ENCRYPTED_TOKEN.salt), iterations: 100000, hash: 'SHA-256' },
+          baseKey,
+          { name: 'AES-GCM', length: 256 },
+          false,
+          ['decrypt']
+        );
+      })
+      .then(function (key) {
+        return crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: b64ToBuf(ENCRYPTED_TOKEN.iv) },
+          key,
+          b64ToBuf(ENCRYPTED_TOKEN.ciphertext)
+        );
+      })
+      .then(function (plainBuf) {
+        return new TextDecoder().decode(plainBuf);
+      });
+  }
 
   function apiGetAll() {
     return fetch(API.url + '?token=' + encodeURIComponent(API.token))
@@ -1168,14 +1273,55 @@
   // ---------------------------------------------------------------------
   // Avvio
 
-  window.addEventListener('online', scheduleSync);
-  document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) scheduleSync();
+  function startApp() {
+    window.addEventListener('online', scheduleSync);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) scheduleSync();
+    });
+
+    render();
+    pullAndMerge();
+    scheduleSync();
+  }
+
+  // ---------------------------------------------------------------------
+  // Gate password (vedi nota sopra ENCRYPTED_TOKEN: non è vera sicurezza,
+  // solo un deterrente contro scraping/crawling passivo).
+
+  var $gateOverlay = document.getElementById('gateOverlay');
+  var $gatePassword = document.getElementById('gatePassword');
+  var $gateSubmit = document.getElementById('gateSubmit');
+  var $gateError = document.getElementById('gateError');
+
+  function unlockWith(password) {
+    $gateError.textContent = '';
+    return decryptToken(password)
+      .then(function (token) {
+        API.token = token;
+        localStorage.setItem(STORAGE_TOKEN, token);
+        $gateOverlay.classList.add('hidden');
+        startApp();
+      })
+      .catch(function () {
+        $gateError.textContent = 'Password errata.';
+      });
+  }
+
+  $gateSubmit.addEventListener('click', function () {
+    unlockWith($gatePassword.value);
+  });
+  $gatePassword.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') unlockWith($gatePassword.value);
   });
 
-  render();
-  pullAndMerge();
-  scheduleSync();
+  var savedToken = localStorage.getItem(STORAGE_TOKEN);
+  if (savedToken) {
+    API.token = savedToken;
+    startApp();
+  } else {
+    $gateOverlay.classList.remove('hidden');
+    $gatePassword.focus();
+  }
 })();
 </script>
 
